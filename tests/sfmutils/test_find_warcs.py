@@ -11,10 +11,10 @@ class TestFindWarcs(tests.TestCase):
         mock_api_client = MagicMock(spec=ApiClient)
         mock_api_client_cls.side_effect = [mock_api_client]
         mock_api_client.collections.side_effect = [[{"collection_id": "abc123"}], [{"collection_id": "def456"}]]
-        mock_api_client.warcs.side_effect = [[{"path": "/sfm-data/abc123"}],
-                                             [{"path": "/sfm-data/def456"}, {"path": "/sfm-data/def789"}]]
+        mock_api_client.warcs.side_effect = [[{"path": "/sfm-collection-set-data/abc123"}],
+                                             [{"path": "/sfm-collection-set-data/def456"}, {"path": "/sfm-collection-set-data/def789"}]]
 
-        self.assertEqual("/sfm-data/abc123 /sfm-data/def456 /sfm-data/def789",
+        self.assertEqual("/sfm-collection-set-data/abc123 /sfm-collection-set-data/def456 /sfm-collection-set-data/def789",
                          main("find_warcs.py --debug=True abc def".split(" ")))
         self.assertEqual([call(collection_id_startswith='abc'), call(collection_id_startswith='def')],
                          mock_api_client.collections.call_args_list)
@@ -32,10 +32,10 @@ class TestFindWarcs(tests.TestCase):
         mock_api_client = MagicMock(spec=ApiClient)
         mock_api_client_cls.side_effect = [mock_api_client]
         mock_api_client.collections.side_effect = [[{"collection_id": "def456"}]]
-        mock_api_client.warcs.side_effect = [[{"path": "/sfm-data/abc123"}],
-                                             [{"path": "/sfm-data/def456"}, {"path": "/sfm-data/def789"}]]
+        mock_api_client.warcs.side_effect = [[{"path": "/sfm-collection-set-data/abc123"}],
+                                             [{"path": "/sfm-collection-set-data/def456"}, {"path": "/sfm-collection-set-data/def789"}]]
 
-        self.assertEqual("/sfm-data/abc123 /sfm-data/def456 /sfm-data/def789",
+        self.assertEqual("/sfm-collection-set-data/abc123 /sfm-collection-set-data/def456 /sfm-collection-set-data/def789",
                          main("find_warcs.py --debug=True --harvest-start 2015-02-22T14:49:07Z --harvest-end "
                               "2016-02-22T14:49:07Z --warc-end 2014-02-22T14:49:07Z --warc-start "
                               "2013-02-22T14:49:07Z abcdefghijklmnopqrstuvwxyz012345 def".split(" ")))
